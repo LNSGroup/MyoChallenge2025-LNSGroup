@@ -1,0 +1,39 @@
+# -----------------------------
+# Base image
+# -----------------------------
+FROM python:3.10-slim-bookworm
+
+# -----------------------------
+# Environment
+# -----------------------------
+ENV PYTHONUNBUFFERED=1
+
+# -----------------------------
+# Copy agent code and requirements
+# -----------------------------
+ADD ./agent /
+ADD ./utils /
+ADD ./requirements/agent.txt /requirements/agent.txt
+
+# -----------------------------
+# Python dependencies
+# -----------------------------
+RUN pip install --upgrade pip \
+    && pip install -r /requirements/agent.txt \
+    && pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# -----------------------------
+# System packages
+# -----------------------------
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git \
+        libgl1-mesa-glx \
+        libosmesa6 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# -----------------------------
+# Default command
+# -----------------------------
+CMD ["python", "agent_tabletennis_crossq_double.py"]

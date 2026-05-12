@@ -1,0 +1,56 @@
+{
+  "alg": "crossq",
+  "env": "myoChallengeTableTennisP2-v0",
+  "num_vec_envs": 64,
+  "hidden_dim": 1024,
+  "hidden_num": 2,
+  "lr": {
+    "base": 5e-4,
+    "schedule": {
+      "name": "linear",
+      "init_ratio": 1.0,
+      "end_ratio": 0.2,
+      "transition_ratio": 0.7,
+      "begin_ratio": 0.1
+    }
+  },
+  "alpha_lr": 7e-3,
+  "buffer_size": 1000000,
+  "start_step": 100000,
+  "total_step": 100000000,
+  "update_per_iteration": 1,
+  "seed": 0,
+  "debug": false,
+  "suffix": "expand_random",
+  "single_env_kwargs": {
+    "obs_keys": [
+      "time",
+      "pelvis_pos",
+      "body_qpos",
+      "body_qvel",
+      "ball_pos",
+      "ball_vel",
+      "paddle_pos",
+      "paddle_vel",
+      "paddle_ori",
+      "reach_err",
+      "palm_pos",
+      "palm_err",
+      "touching_info",
+      "act"
+    ]
+  },
+  "wrapper_list": {
+    "tabletennisWrapper": {
+      "reward_dict": {
+          "paddle_quat": 1,
+          "torso_up": 5,
+          "palm_dist": 1,
+          "racket_tracking":2,
+          "sparse":10,
+          "good_sparse":100,
+          "own_side_penalty":5
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+[submodule "Qflex"]
+	path = Qflex
+	url = https://github.com/LNSGroup/Qflex.git
